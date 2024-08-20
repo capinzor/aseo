@@ -14,11 +14,31 @@ Antes de poder ejecutar este proyecto, asegúrate de tener instalados los siguie
 - **IntelliJ IDEA** (opcional pero recomendado)
 - **Git** (opcional para clonar el repositorio)
 
-## Configuración de la Base de Datos
+## 2. Configuración de la Base de Datos
 
-1. **Instalar y configurar PostgreSQL**:
+### 2.1 Crear la Base de Datos
 
-   Asegúrate de que PostgreSQL esté instalado y en funcionamiento. Luego, crea una base de datos para la aplicación:
+Primero, necesitas crear la base de datos en PostgreSQL.
+
+1. Conéctate a tu servidor PostgreSQL usando `psql` o `pgAdmin`.
+2. Crea la base de datos:
 
    ```sql
    CREATE DATABASE serviaseo_db;
+
+
+## 2.2 Crear las Tablas
+
+A continuación, crea las tablas necesarias para el proyecto.
+
+### 2.2.1 Tabla `customers`
+
+```sql
+CREATE TABLE customers (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    address VARCHAR(255)
+);
+
