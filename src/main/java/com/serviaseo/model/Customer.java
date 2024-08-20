@@ -1,14 +1,15 @@
-package com.serviaseo.core.domain;
+package com.serviaseo.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.util.List;
-
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "clientes")
+@Table(name = "customers")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,4 @@ public class Customer {
     private String email;
     private String phone;
     private String address;
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Invoice> invoices;
 }
