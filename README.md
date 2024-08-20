@@ -72,7 +72,7 @@ CREATE TABLE invoice_details (
     price DECIMAL(10, 2) NOT NULL
 );
 ```
-### 2.2.5 Tabla `email_logs`
+### 2.2.5 Tabla `products`
 
 ```sql
 CREATE TABLE products (
