@@ -75,6 +75,15 @@ CREATE TABLE invoice_details (
 ### 2.2.5 Tabla `email_logs`
 
 ```sql
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL
+);
+```
+### 2.2.6 Tabla `email_logs`
+
+```sql
 CREATE TABLE email_logs (
     id SERIAL PRIMARY KEY,
     recipient VARCHAR(255) NOT NULL,
