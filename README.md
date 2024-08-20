@@ -41,4 +41,46 @@ CREATE TABLE customers (
     phone VARCHAR(20),
     address VARCHAR(255)
 );
+### 2.2.2 Tabla `cleaning_types`
+
+```sql
+CREATE TABLE cleaning_types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+### 2.2.3 Tabla `invoices`
+
+```sql
+CREATE TABLE invoices (
+    id SERIAL PRIMARY KEY,
+    issue_date DATE NOT NULL,
+    cleaning_type_id INT REFERENCES cleaning_types(id),
+    customer_id INT REFERENCES customers(id),
+    amount DECIMAL(10, 2) NOT NULL
+);
+
+### 2.2.4 Tabla `invoice_details`
+
+```sql
+CREATE TABLE invoice_details (
+    id SERIAL PRIMARY KEY,
+    invoice_id INT REFERENCES invoices(id),
+    description TEXT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL
+);
+
+### 2.2.5 Tabla `email_logs`
+
+```sql
+CREATE TABLE email_logs (
+    id SERIAL PRIMARY KEY,
+    recipient VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    body TEXT NOT NULL,
+    attachment_size INT,
+    timestamp TIMESTAMP NOT NULL
+);
+
 
