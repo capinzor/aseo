@@ -75,6 +75,7 @@ Antes de poder ejecutar este proyecto, asegúrate de tener instalados los siguie
 - **email_logs:** Esta tabla no tiene relaciones directas con otras tablas, ya que simplemente registra los correos enviados.
 
 ## 1.8. Diagrama ER
+![Diagrama ER](src/main/resources/images/serviaseo.drawio.svg)
 
 
 ## 2. Configuración de la Base de Datos
