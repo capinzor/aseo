@@ -234,34 +234,10 @@ En esta sección, se describen los pasos para probar los servicios REST utilizan
     "subject": "Your Invoice from ServiAseo",
     "body": "Dear customer, please find attached your invoice."
   }
-```
 
-### 5.2 Registrar Clientes
 
-- **Método:** POST
-- **URL:** `/customers/register`
-- **Cuerpo (JSON):**
-  ```json
-  {
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "1234567890",
-    "address": "123 Main Street"
-  }
-  ```
-### 5.2 Registrar Clientes
 
-- **Método:** POST
-- **URL:** `/customers/register`
-- **Cuerpo (JSON):**
-  ```json
-  {
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "1234567890",
-    "address": "123 Main Street"
-  }
-  ```
+
 
   
 
