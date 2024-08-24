@@ -29,7 +29,7 @@ Antes de poder ejecutar este proyecto, asegúrate de tener instalados los siguie
 - **Descripción:** Contiene los diferentes tipos de servicios de limpieza que se ofrecen.
 - **Campos:**
   - `id`: Identificador único del tipo de limpieza (Primary Key).
-  - `name`: Nombre del tipo de limpieza (No puede ser nulo).
+  - `dscription`: Descripcion del tipo de limpieza (No puede ser nulo).
 
 ## 1.3. Tabla `invoices`
 - **Descripción:** Registra las facturas emitidas a los clientes.
@@ -45,9 +45,10 @@ Antes de poder ejecutar este proyecto, asegúrate de tener instalados los siguie
 - **Campos:**
   - `id`: Identificador único del detalle de la factura (Primary Key).
   - `invoice_id`: Referencia a la factura asociada (Foreign Key que referencia a `invoices(id)`).
-  - `description`: Descripción del servicio o producto facturado (No puede ser nulo).
+  - `product_id`: Referencia al producto facturado (Foreign Key que referencia a `products(id)`).
   - `quantity`: Cantidad del servicio o producto facturado (No puede ser nulo).
-  - `price`: Precio del servicio o producto facturado (No puede ser nulo).
+  - `Unit_price`: Precio del servicio o producto facturado (No puede ser nulo).
+  - `subtotal`: Resultado de multiplicar la cantidad de produto por el precio unitario (No puede ser nulo).
 
 ## 1.5. Tabla `products`
 - **Descripción:** Contiene la información de los productos que pueden ser incluidos en las facturas.
@@ -70,6 +71,7 @@ Antes de poder ejecutar este proyecto, asegúrate de tener instalados los siguie
 
 - **customers 1:N invoices:** Un cliente puede tener múltiples facturas asociadas.
 - **invoices N:1 cleaning_types:** Cada factura está asociada con un tipo de limpieza específico.
+- **products 1:N invoice_details:** Cada producto puede tener múltiples detalles de factura asociados.
 - **invoices 1:N invoice_details:** Cada factura puede tener múltiples detalles de factura asociados.
 - **invoice_details N:1 invoices:** Cada detalle de factura está asociado con una factura específica.
 - **email_logs:** Esta tabla no tiene relaciones directas con otras tablas, ya que simplemente registra los correos enviados.
@@ -132,9 +134,10 @@ CREATE TABLE invoices (
 CREATE TABLE invoice_details (
     id SERIAL PRIMARY KEY,
     invoice_id INT REFERENCES invoices(id),
-    description TEXT NOT NULL,
+    product_id INT REFERENCES products(id),
     quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL
+    unit_price NUMERIC(10, 2) NOT NULL,
+    subtotal NUMERIC(10, 2) NOT NULL
 );
 ```
 ### 2.2.5 Tabla `products`
@@ -158,4 +161,109 @@ CREATE TABLE email_logs (
     timestamp TIMESTAMP NOT NULL
 );
 ```
+## 3. Configura las propiedades de la base de datos.
+
+Modifica el archivo `src/main/resources/application.properties` con las credenciales de tu base de datos PostgreSQL:
+
+En el archivo Markdown, esto se verá así:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/serviaseo_db
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+```
+## 4. Compila y ejecuta la aplicación:
+
+```bash
+./mvnw clean install
+./mvnw spring-boot:run
+```
+
+## 5. Pruebas de Endpoints con Postman
+
+En esta sección, se describen los pasos para probar los servicios REST utilizando Postman. A continuación, se detallan los endpoints disponibles para verificar clientes, registrar clientes, crear y gestionar facturas.
+
+### 5.1 Verificar Clientes
+
+- **Método:** POST
+- **URL:** `/customers/exists`
+- **Cuerpo (JSON):**
+  ```json
+  {
+    "email": "john.doe@example.com"
+  }
+  ```
+
+### 5.2 Registrar Clientes
+
+- **Método:** POST
+- **URL:** `/customers/register`
+- **Cuerpo (JSON):**
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "address": "123 Main Street"
+  }
+  ```
+
+### 5.3 Crear Nuevas Facturas
+
+- **Método:** POST
+- **URL:** `/invoices/create`
+- **Cuerpo (JSON):**
+
+```json
+{
+    "issueDate": "2024-08-18",
+    "cleaningTypeId": 4,
+    "customerId": 5,
+    "detailsJson": "[{\"productId\": 6, \"quantity\": 2, \"unitPrice\": 1000, \"subtotal\": 2000}, {\"productId\": 4, \"quantity\": 1, \"unitPrice\": 1500, \"subtotal\": 1500}]"
+}
+```
+### 5.4 Enviar Facturas por Correo Electrónico
+
+- **Método:** POST
+- **URL:** `/invoices/send`
+- **Cuerpo (JSON):**
+  ```json
+  {
+    "invoiceId": "1",
+    "to": "customer@example.com",
+    "subject": "Your Invoice from ServiAseo",
+    "body": "Dear customer, please find attached your invoice."
+  }
+```
+
+### 5.2 Registrar Clientes
+
+- **Método:** POST
+- **URL:** `/customers/register`
+- **Cuerpo (JSON):**
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "address": "123 Main Street"
+  }
+  ```
+### 5.2 Registrar Clientes
+
+- **Método:** POST
+- **URL:** `/customers/register`
+- **Cuerpo (JSON):**
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "address": "123 Main Street"
+  }
+  ```
+
+  
+
+
 
